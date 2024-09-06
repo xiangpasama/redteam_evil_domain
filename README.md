@@ -12,6 +12,7 @@
 
 4-1/2/3的变形域名后添加常见的域名后缀，替换.com【redteam_evil_domain_plus.py专属】
 
+domain_suffix.txt包含129个域名后缀，来自腾讯云的域名注册清单。
 
 ```
 
