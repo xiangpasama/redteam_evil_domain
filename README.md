@@ -23,11 +23,11 @@ domain_suffix.txt包含129个域名后缀，来自腾讯云的域名注册清单
 
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
-redteam_evil_domain.py变体较少，数百到数千
+redteam_evil_domain.py，变体较少，数百到数千
 
 python redteam_evil_domain.py google.com
 
-redteam_evil_domain_plus.py变体较多，数万到数十万
+redteam_evil_domain_plus.py，变体较多，数万到数十万
 
 python redteam_evil_domain_plus.py google.com
 
