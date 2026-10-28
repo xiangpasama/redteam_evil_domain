@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>越南中小学教科书电子版索引 · 1–12 年级</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F6F7F9; --panel:#fff; --ink:#15171C; --ink2:#575D6C; --ink3:#8A91A1;
+  --line:#E7E9EF; --line2:#EFF1F5; --accent:#B3261E; --accent-soft:#FBEEEC;
+  --shadow:0 1px 2px rgba(20,22,28,.04),0 8px 24px -12px rgba(20,22,28,.14);
+  --r:14px;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:15px; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- hero ---------- */
+.hero{
+  background:
+    radial-gradient(1200px 320px at 12% -10%, #FFF 0%, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,#FFFFFF 0%,#FBFBFD 100%);
+  border-bottom:1px solid var(--line);
+  padding:56px 0 40px;
+  position:relative; overflow:hidden;
+}
+.hero::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,var(--accent),#D9542B 45%,#E8A33D);
+  opacity:.9;
+}
+.kicker{
+  font-size:11px; letter-spacing:.16em; font-weight:600; color:var(--accent);
+  text-transform:uppercase; margin-bottom:14px;
+}
+.hero h1{
+  font-size:38px; line-height:1.24; font-weight:700; letter-spacing:-.02em;
+  margin-bottom:14px;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .sub{color:var(--ink2);font-size:15px;max-width:56ch}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.stat{
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:10px 14px;display:flex;align-items:baseline;gap:8px;
+}
+.stat b{font-size:19px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--ink3)}
+
+/* ---------- notice ---------- */
+.notice{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--accent-soft); border:1px solid #F3D9D5; border-radius:var(--r);
+  padding:16px 18px; margin-top:28px;
+}
+.notice .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:8px;flex:none}
+.notice p{font-size:13.5px;color:#7A2A22;line-height:1.65}
+.notice b{font-weight:600}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(246,247,249,.86); backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);
+  padding:14px 0;
+}
+.tb-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.search{
+  flex:1 1 260px; min-width:200px; position:relative; display:flex; align-items:center;
+}
+.search svg{position:absolute;left:14px;width:16px;height:16px;stroke:var(--ink3);fill:none;stroke-width:2;pointer-events:none}
+.search input{
+  width:100%; height:42px; padding:0 40px 0 40px;
+  border:1px solid var(--line); border-radius:10px; background:#fff;
+  font-size:14px; color:var(--ink); font-family:inherit;
+  transition:border-color .16s, box-shadow .16s;
+}
+.search input::placeholder{color:var(--ink3)}
+.search input:focus{outline:none;border-color:#C9CCD6;box-shadow:0 0 0 3px rgba(21,23,28,.05)}
+.search .clear{
+  position:absolute;right:8px;width:26px;height:26px;border:0;background:transparent;
+  cursor:pointer;color:var(--ink3);font-size:17px;line-height:1;border-radius:6px;display:none;
+}
+.search .clear:hover{background:#F1F2F6;color:var(--ink)}
+.search.has-value .clear{display:block}
+
+.seg{display:flex;background:#EDEFF3;border-radius:10px;padding:3px;gap:2px}
+.seg button{
+  border:0;background:transparent;font-family:inherit;font-size:13.5px;font-weight:500;
+  color:var(--ink2);padding:7px 15px;border-radius:8px;cursor:pointer;
+  transition:background .16s,color .16s,box-shadow .16s; white-space:nowrap;
+}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{
+  background:#fff; color:var(--ink); box-shadow:0 1px 2px rgba(20,22,28,.08);
+}
+
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pill{
+  border:1px solid var(--line); background:#fff; color:var(--ink2);
+  font-family:inherit; font-size:12.5px; padding:5px 11px; border-radius:100px;
+  cursor:pointer; transition:.15s; font-variant-numeric:tabular-nums;
+}
+.pill:hover{border-color:#D3D7E0;color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.meta{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px;font-size:13px;color:var(--ink3)}
+.meta b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- sections ---------- */
+main{padding:8px 0 80px}
+.level{margin-top:36px;scroll-margin-top:130px}
+.level-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.level-head h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.level-head .vn{font-size:13px;color:var(--ink3);letter-spacing:.02em}
+.level-head .cnt{font-size:12.5px;color:var(--ink3);margin-left:auto;font-variant-numeric:tabular-nums}
+.level-sub{font-size:13.5px;color:var(--ink2);margin-bottom:20px}
+
+.grade{margin-bottom:26px;scroll-margin-top:130px}
+.grade-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.grade-head h3{font-size:14.5px;font-weight:600;letter-spacing:.01em}
+.grade-head .badge{
+  font-size:11.5px;color:var(--ink3);background:#EDEFF3;border-radius:6px;
+  padding:2px 8px;font-variant-numeric:tabular-nums;
+}
+
+.tablewrap{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px;table-layout:fixed}
+thead th{
+  text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--ink3);text-transform:uppercase;
+  padding:11px 16px;background:#FCFCFD;border-bottom:1px solid var(--line);
+}
+thead th:nth-child(1){width:50px;text-align:center}
+thead th:nth-child(2){width:auto}
+thead th:nth-child(3){width:34%;text-align:left}
+thead th:nth-child(4){width:108px;text-align:right}
+td.vi,td.zh{overflow-wrap:anywhere}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--line2);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:#FAFBFC}
+td.num{text-align:center;color:var(--ink3);font-size:12.5px;font-variant-numeric:tabular-nums;padding-top:13px}
+td.vi{font-weight:500;color:var(--ink);font-size:14px;line-height:1.5}
+td.zh{color:var(--ink2);font-size:13.5px;line-height:1.5}
+td.act{text-align:right}
+.open{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12.5px;font-weight:500;color:var(--accent);text-decoration:none;
+  border:1px solid #F0DAD7;background:#fff;border-radius:8px;padding:5px 11px;
+  transition:.15s;white-space:nowrap;
+}
+.open:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.open svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.4}
+mark{background:#FDF0C8;color:inherit;border-radius:3px;padding:0 1px}
+
+.empty{
+  display:none;text-align:center;padding:70px 20px;color:var(--ink3);
+  background:#fff;border:1px dashed var(--line);border-radius:var(--r);
+}
+.empty strong{display:block;color:var(--ink);font-size:16px;margin-bottom:6px;font-weight:600}
+
+footer{
+  border-top:1px solid var(--line);background:#fff;padding:34px 0 46px;
+  font-size:13px;color:var(--ink3);
+}
+footer p{margin-bottom:7px}
+footer a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line)}
+footer a:hover{color:var(--accent);border-color:var(--accent)}
+
+#top{
+  position:fixed;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+  cursor:pointer;display:none;align-items:center;justify-content:center;z-index:60;
+}
+#top svg{width:16px;height:16px;stroke:var(--ink2);fill:none;stroke-width:2.2}
+#top.show{display:flex}
+#top:hover{border-color:#C9CCD6}
+
+@media (max-width:700px){
+  .wrap{padding:0 16px}
+  .hero{padding:40px 0 32px}
+  .hero h1{font-size:27px}
+  .hero .sub{font-size:14px}
+  .stat{padding:8px 12px}
+  .stat b{font-size:17px}
+  .level-head h2{font-size:19px}
+  .tb-row{gap:10px}
+  .seg{width:100%}
+  .seg button{flex:1;padding:7px 0}
+
+  /* 表格改为卡片式堆叠，避免横向滚动 */
+  table{min-width:0;table-layout:auto}
+  thead{display:none}
+  tbody tr{
+    display:grid;grid-template-columns:1fr auto;align-items:center;
+    gap:1px 14px;padding:12px 14px;border-bottom:1px solid var(--line2);
+  }
+  tbody tr:last-child{border-bottom:0}
+  tbody td{border:0;padding:0}
+  td.num{display:none}
+  td.vi{grid-column:1;font-size:13.5px;line-height:1.45}
+  td.zh{grid-column:1;font-size:12.5px;color:var(--ink3);line-height:1.4}
+  td.act{grid-column:2;grid-row:1 / span 2;text-align:right}
+  .tablewrap{border-radius:12px}
+  .scroll{overflow-x:visible}
+}
+
+@media print{
+  .toolbar,#top,footer{display:none!important}
+  body{background:#fff;font-size:11px}
+  .hero{padding:20px 0;border:0}
+  .hero h1{font-size:20px}
+  .notice{display:none}
+  .tablewrap{box-shadow:none;break-inside:avoid}
+  .grade{break-inside:avoid}
+  tbody tr{break-inside:avoid}
+  thead{display:table-header-group}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Nhà xuất bản Giáo dục Việt Nam · 越南教育出版社</div>
+    <h1>越南中小学教科书<br><em>电子版</em>索引</h1>
+    <p class="sub">
+      小学至高中 1–12 年级完整书目，逐册对应官方免费在线阅读地址。
+      数据抓取自 taphuan.nxbgd.vn，全部链接可用性均已逐条验证。
+    </p>
+    <div class="stats">
+      <div class="stat"><b>312</b><span>册电子教科书</span></div>
+      <div class="stat"><b>12</b><span>个年级</span></div>
+      <div class="stat"><b>3</b><span>学段</span></div>
+      <div class="stat"><b>100%</b><span>链接可访问</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="notice">
+    <span class="dot"></span>
+    <p><b>关于下载：</b>官方阅读器为逐页图片翻页（turn.js），<b>不提供整本 PDF 下载</b>，只能在线翻阅，可对单页图片右键另存。平台声明资源仅限教学与学习免费使用，禁止商业用途。</p>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="tb-row">
+      <div class="search" id="searchbox">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="搜索书名或学科，例如：Toán / 物理 / 语文 10" autocomplete="off" spellcheck="false">
+        <button class="clear" id="clearq" aria-label="清空">×</button>
+      </div>
+      <div class="seg" id="seg">
+        <button data-level="all" aria-pressed="true">全部</button>
+        <button data-level="primary" aria-pressed="false">小学</button>
+        <button data-level="secondary" aria-pressed="false">初中</button>
+        <button data-level="high" aria-pressed="false">高中</button>
+      </div>
+    </div>
+    <div class="pills" id="pills">
+      <button class="pill" data-grade="all" aria-pressed="true">全部年级</button>
+      <button class="pill" data-grade="1" aria-pressed="false">一年级</button><button class="pill" data-grade="2" aria-pressed="false">二年级</button><button class="pill" data-grade="3" aria-pressed="false">三年级</button><button class="pill" data-grade="4" aria-pressed="false">四年级</button><button class="pill" data-grade="5" aria-pressed="false">五年级</button><button class="pill" data-grade="6" aria-pressed="false">六年级</button><button class="pill" data-grade="7" aria-pressed="false">七年级</button><button class="pill" data-grade="8" aria-pressed="false">八年级</button><button class="pill" data-grade="9" aria-pressed="false">九年级</button><button class="pill" data-grade="10" aria-pressed="false">十年级</button><button class="pill" data-grade="11" aria-pressed="false">十一年级</button><button class="pill" data-grade="12" aria-pressed="false">十二年级</button>
+    </div>
+  </div>
+</div>
+
+<noscript><div class="wrap" style="padding-top:24px"><div class="notice" style="background:#FFF8E6;border-color:#F2E2B8"><span class="dot" style="background:#C08A20"></span><p style="color:#7A5A10"><b>需要启用 JavaScript：</b>本页的书目由脚本渲染。请开启 JS 后刷新，或直接访问 <a href="https://taphuan.nxbgd.vn/tap-huan" style="color:#7A5A10">taphuan.nxbgd.vn</a> 按年级浏览。</p></div></div></noscript>
+
+<main class="wrap" id="main">
+  
+  <div class="empty" id="empty">
+    <strong>没有匹配的书目</strong>
+    换个关键词试试，或点「全部」重置筛选。
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>数据来源：<a href="https://taphuan.nxbgd.vn/tap-huan" target="_blank" rel="noopener">taphuan.nxbgd.vn</a>（越南教育出版社官方免费平台）　·　整理日期：2026-10-28</p>
+    <p>书目为越南现行统一教材《连接知识与生活》（Kết nối tri thức với cuộc sống）系列；外语科目按学校开设语种分册，非全部必修。</p>
+    <p>使用提示：点击「阅读」直接进入官方在线阅读器，无需登录、无需注册。</p>
+  </div>
+</footer>
+
+<button id="top" aria-label="回到顶部"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+const DATA = [{"g":1,"t":"Tiếng Việt 1, tập một","z":"越南语 1，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-1-tap-mot.4695822132"},{"g":1,"t":"Tiếng Việt 1, tập hai","z":"越南语 1，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-1-tap-hai.4698214319"},{"g":1,"t":"Toán 1, tập một","z":"数学 1，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-1-tap-mot.4698216815"},{"g":1,"t":"Toán 1, tập hai","z":"数学 1，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-1-tap-hai.4712748878"},{"g":1,"t":"Tự nhiên và Xã hội 1","z":"自然与社会 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tu-nhien-va-xa-hoi-1.4698227889"},{"g":1,"t":"Đạo đức 1","z":"道德 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dao-duc-1.4698230722"},{"g":1,"t":"Âm nhạc 1","z":"音乐 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-1.4698234437"},{"g":1,"t":"Mĩ thuật 1","z":"美术 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-1.4698235425"},{"g":1,"t":"Hoạt động trải nghiệm 1","z":"体验活动 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-1.4698574271"},{"g":1,"t":"Giáo dục thể chất 1","z":"体育 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-1.4698581785"},{"g":1,"t":"Tiếng Anh 1- Global Success","z":"英语 1","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-1-global-success.4914061146"},{"g":2,"t":"Tiếng Việt 2, tập một","z":"越南语 2，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-2-tap-mot.4698590737"},{"g":2,"t":"Tiếng Việt 2, tập hai","z":"越南语 2，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-2-tap-hai.4698600732"},{"g":2,"t":"Toán 2, tập một","z":"数学 2，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-mot.4698648594"},{"g":2,"t":"Toán 2, tập hai","z":"数学 2，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-2-tap-hai.4713893812"},{"g":2,"t":"Tự nhiên và Xã hội 2","z":"自然与社会 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tu-nhien-va-xa-hoi-2.4698656504"},{"g":2,"t":"Đạo đức 2","z":"道德 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dao-duc-2.4698659171"},{"g":2,"t":"Âm nhạc 2","z":"音乐 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-2.4698663453"},{"g":2,"t":"Mĩ thuật 2","z":"美术 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-2.4698668259"},{"g":2,"t":"Hoạt động trải nghiệm 2","z":"体验活动 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-2.4698673621"},{"g":2,"t":"Giáo dục thể chất 2","z":"体育 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-2.4698675828"},{"g":2,"t":"Tiếng Anh 2- Global Success","z":"英语 2","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-anh-2-global-success.4914084740"},{"g":3,"t":"Tiếng Việt 3, tập một","z":"越南语 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-3-tap-mot.4698680579"},{"g":3,"t":"Tiếng Việt 3, tập hai","z":"越南语 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-3-tap-hai.4698697436"},{"g":3,"t":"Toán 3, tập một","z":"数学 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-3-tap-mot.4698702815"},{"g":3,"t":"Toán 3, tập hai","z":"数学 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-3-tap-hai.4714081721"},{"g":3,"t":"Tự nhiên và Xã hội 3","z":"自然与社会 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tu-nhien-va-xa-hoi-3.4698707453"},{"g":3,"t":"Đạo đức 3","z":"道德 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dao-duc-3.4698713497"},{"g":3,"t":"Âm nhạc 3","z":"音乐 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-3.4698722151"},{"g":3,"t":"Mĩ thuật 3","z":"美术 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-3.4698724767"},{"g":3,"t":"Công nghệ 3","z":"技术 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-3.4698732122"},{"g":3,"t":"Tin học 3","z":"信息技术 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-3.4698739161"},{"g":3,"t":"Hoạt động trải nghiệm 3","z":"体验活动 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-3.4698751308"},{"g":3,"t":"Giáo dục thể chất 3","z":"体育 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-3.4698759404"},{"g":3,"t":"Tiếng Anh 3 tập 1- Global Success","z":"英语 3 第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-anh-3-tap-1-global-success.4537411435"},{"g":3,"t":"Tiếng Anh 3 tập 2- Global Success","z":"英语 3 第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-3-tap-2-global-success.4914101275"},{"g":3,"t":"Tiếng Trung Quốc 3, tập một","z":"中文 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-3-tap-mot.4882063260"},{"g":3,"t":"Tiếng Trung Quốc 3, tập hai","z":"中文 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-3-tap-hai.4882067953"},{"g":3,"t":"Tiếng Nhật 3, tập một","z":"日语 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-3-tap-mot.4538747390"},{"g":3,"t":"Tiếng Nhật 3, tập hai","z":"日语 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-3-tap-hai.4540037475"},{"g":3,"t":"Tiếng Hàn 3, tập một","z":"韩语 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-han-3-tap-mot.4538914234"},{"g":3,"t":"Tiếng Hàn 3, tập hai","z":"韩语 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-han-3-tap-hai.4962772344"},{"g":3,"t":"Tiếng Pháp 3","z":"法语 3","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-3.4785378343"},{"g":3,"t":"Tiếng Đức 3, tập một","z":"德语 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgv-tieng-duc-3.4537416579"},{"g":3,"t":"Tiếng Đức 3, tập hai","z":"德语 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-duc-3-tap-hai.4536986233"},{"g":3,"t":"Tiếng Nga 3, tập một","z":"俄语 3，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nga-3-tap-mot.4882572500"},{"g":3,"t":"Tiếng Nga 3, tập hai","z":"俄语 3，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nga-3-tap-hai.4882576596"},{"g":4,"t":"Tiếng Việt 4, tập một","z":"越南语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-4-tap-mot.4698846675"},{"g":4,"t":"Tiếng Việt 4, tập hai","z":"越南语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-4-tap-hai.4698852686"},{"g":4,"t":"Toán 4, tập một","z":"数学 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-4-tap-mot.4714093295"},{"g":4,"t":"Toán 4, tập hai","z":"数学 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-4-tap-hai.4698870230"},{"g":4,"t":"Khoa học 4","z":"科学 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-4.4698873264"},{"g":4,"t":"Đạo đức 4","z":"道德 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dao-duc-4.4698882156"},{"g":4,"t":"Âm nhạc 4","z":"音乐 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-4.4698889466"},{"g":4,"t":"Mĩ thuật 4","z":"美术 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-4.4698896486"},{"g":4,"t":"Công nghệ 4","z":"技术 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-4.4698906593"},{"g":4,"t":"Lịch sử và Địa lí 4","z":"历史与地理 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-va-dia-li-4.4756030172"},{"g":4,"t":"Tin học 4","z":"信息技术 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-4.4698914396"},{"g":4,"t":"Hoạt động trải nghiệm 4","z":"体验活动 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-4.4698921153"},{"g":4,"t":"Giáo dục thể chất 4","z":"体育 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-4.4698937835"},{"g":4,"t":"Tiếng Anh 4 - Global Success, tập một","z":"英语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-4-global-success-tap-mot.4914111660"},{"g":4,"t":"Tiếng Anh 4 - Global Success, tập hai","z":"英语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-4-global-success-tap-hai.4914832178"},{"g":4,"t":"Tiếng Trung Quốc 4, tập một","z":"中文 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-4-tap-mot.4881895459"},{"g":4,"t":"Tiếng Trung Quốc 4, tập hai","z":"中文 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-4-tap-hai.4881900152"},{"g":4,"t":"Tiếng Nhật 4, tập một","z":"日语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-4-tap-mot.4539528253"},{"g":4,"t":"Tiếng Nhật 4, tập hai","z":"日语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-4-tap-hai.4537713996"},{"g":4,"t":"Tiếng Hàn 4, tập một","z":"韩语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-han-4-tap-mot.4962833213"},{"g":4,"t":"Tiếng Hàn 4, tập hai","z":"韩语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-han-4-tap-hai.4962840945"},{"g":4,"t":"Tiếng Pháp 4","z":"法语 4","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-4.4785397510"},{"g":4,"t":"Tiếng Đức 4, tập 1","z":"德语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-duc-4-tap-mot.4876093457"},{"g":4,"t":"Tiếng Đức 4, tập 2","z":"德语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-duc-4-tap-hai.4876096667"},{"g":4,"t":"Tiếng Nga 4, tập một","z":"俄语 4，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nga-4-tap-mot.4882110199"},{"g":4,"t":"Tiếng Nga 4, tập hai","z":"俄语 4，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nga-4-tap-hai.4882135418"},{"g":5,"t":"Tiếng Việt 5, tập một","z":"越南语 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-5-tap-mot.4699740998"},{"g":5,"t":"Tiếng Việt 5, tập hai","z":"越南语 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-viet-5-tap-hai.4699750731"},{"g":5,"t":"Toán 5, tập một","z":"数学 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-5-tap-mot.4699756373"},{"g":5,"t":"Toán 5, tập hai","z":"数学 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-5-tap-hai.4714103431"},{"g":5,"t":"Khoa học 5","z":"科学 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-5.4699767702"},{"g":5,"t":"Đạo đức 5","z":"道德 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dao-duc-5.4699777693"},{"g":5,"t":"Âm nhạc 5","z":"音乐 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-5.4699781141"},{"g":5,"t":"Mĩ thuật 5","z":"美术 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-5.4699804883"},{"g":5,"t":"Công nghệ 5","z":"技术 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-5.4699808744"},{"g":5,"t":"Lịch sử và Địa lí 5","z":"历史与地理 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-va-dia-li-5.4843863100"},{"g":5,"t":"Tin học 5","z":"信息技术 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-5.4699814459"},{"g":5,"t":"Hoạt động trải nghiệm 5","z":"体验活动 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-5.4699823204"},{"g":5,"t":"Giáo dục thể chất 5","z":"体育 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-5.4699829908"},{"g":5,"t":"Tiếng Anh 5 - Global Success, tập một","z":"英语 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-5-global-success-tap-mot.4914842460"},{"g":5,"t":"Tiếng Anh 5 - Global Success, tập hai","z":"英语 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-5-global-success-tap-hai.4914843136"},{"g":5,"t":"Tiếng Pháp 5","z":"法语 5","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-5.4785418153"},{"g":5,"t":"Tiếng Nhật 5, tập một","z":"日语 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-5-tap-mot.4540159872"},{"g":5,"t":"Tiếng Nhật 5, tập hai","z":"日语 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-nhat-5-tap-hai.4539495655"},{"g":5,"t":"Tiếng Hàn 5, tập một","z":"韩语 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-han-5-tap-1.5024002546"},{"g":5,"t":"Tiếng Hàn 5, tập hai","z":"韩语 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-han-5-tap-hai.5024043514"},{"g":5,"t":"Tiếng Trung Quốc 5, tập một","z":"中文 5，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-5-tap-mot.4876005520"},{"g":5,"t":"Tiếng Trung Quốc 5, tập hai","z":"中文 5，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-5-tap-hai.4876020945"},{"g":6,"t":"Ngữ văn 6, tập một","z":"语文 6，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-6-tap-mot.4699839775"},{"g":6,"t":"Ngữ văn 6, tập hai","z":"语文 6，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-6-tap-hai.4699846798"},{"g":6,"t":"Toán 6, tập một","z":"数学 6，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-6-tap-mot.4699854777"},{"g":6,"t":"Toán 6, tập hai","z":"数学 6，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-6-tap-hai.4699864675"},{"g":6,"t":"Khoa học tự nhiên 6","z":"自然科学 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-tu-nhien-6.4699875855"},{"g":6,"t":"Công nghệ 6","z":"技术 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-6.4699880634"},{"g":6,"t":"Lịch sử và Địa lí 6","z":"历史与地理 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-va-dia-li-6.4830326427"},{"g":6,"t":"Mĩ thuật 6","z":"美术 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-6.4699893705"},{"g":6,"t":"Âm nhạc 6","z":"音乐 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-6.4699901728"},{"g":6,"t":"Giáo dục công dân 6","z":"公民教育 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-cong-dan-6.4726791109"},{"g":6,"t":"Tin học 6","z":"信息技术 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-6.4699918592"},{"g":6,"t":"Hoạt động trải nghiệm, hướng nghiệp 6","z":"体验与职业导向活动 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-6.4699925658"},{"g":6,"t":"Giáo dục thể chất 6","z":"体育 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-6.4699941149"},{"g":6,"t":"Tiếng Anh 6 tập 1- Global Success","z":"英语 6 第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-6-tap-1-global-success.4879705889"},{"g":6,"t":"Tiếng Anh 6 tập 2 - Global Success","z":"英语 6 第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-6-tap-2-global-success.4879712416"},{"g":6,"t":"Tiếng Nhật 6","z":"日语 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nhat-6.4962776634"},{"g":6,"t":"Tiếng Pháp 6","z":"法语 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-6.4788316442"},{"g":6,"t":"Tiếng Đức 6","z":"德语 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-duc-6.4849460773"},{"g":6,"t":"Tiếng Nga 6 (Tập một)","z":"俄语 6 （第一册）","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-nga-6-tap-mot.4892275390"},{"g":6,"t":"Tiếng Nga 6 (Tập hai)","z":"俄语 6 （第二册）","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-nga-6-tap-mot.4892277569"},{"g":6,"t":"Tiếng Trung Quốc 6","z":"中文 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-trung-quoc-6.26564"},{"g":6,"t":"Tiếng Trung Quốc 6","z":"中文 6","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-trung-quoc-6.4537414773"},{"g":7,"t":"Ngữ văn 7, tập một","z":"语文 7，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-7-tap-mot.4699959987"},{"g":7,"t":"Ngữ văn 7, tập hai","z":"语文 7，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-7-tap-hai.4700000210"},{"g":7,"t":"Toán 7, tập một","z":"数学 7，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-7-tap-mot.4714106181"},{"g":7,"t":"Toán 7, tập hai","z":"数学 7，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-7-tap-hai.4700015846"},{"g":7,"t":"Khoa học tự nhiên 7","z":"自然科学 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-tu-nhien-7.4700027658"},{"g":7,"t":"Công nghệ 7","z":"技术 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-7.4700035718"},{"g":7,"t":"Lịch sử và Địa lí 7","z":"历史与地理 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-va-dia-li-7.4830359644"},{"g":7,"t":"Mĩ thuật 7","z":"美术 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-7.4700045108"},{"g":7,"t":"Âm nhạc 7","z":"音乐 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-7.4700049640"},{"g":7,"t":"Giáo dục công dân 7","z":"公民教育 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-cong-dan-7.4726822635"},{"g":7,"t":"Tin học 7","z":"信息技术 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-7.4700056620"},{"g":7,"t":"Hoạt động trải nghiệm, hướng nghiệp 7","z":"体验与职业导向活动 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-7.4700059291"},{"g":7,"t":"Giáo dục thể chất 7","z":"体育 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-7.4700067718"},{"g":7,"t":"Tiếng Anh 7 - Global Success","z":"英语 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-anh-7-global-success.4539950416"},{"g":7,"t":"Tiếng Nhật 7","z":"日语 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nhat-7.4962889868"},{"g":7,"t":"Tiếng Pháp 7","z":"法语 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-7.4788324320"},{"g":7,"t":"Tiếng Nga 7 (Tập một)","z":"俄语 7 （第一册）","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-nga-7-tap-mot.4892279272"},{"g":7,"t":"Tiếng Nga 7 (Tập hai)","z":"俄语 7 （第二册）","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-nga-7-tap-hai.4892287110"},{"g":7,"t":"Tiếng Trung Quốc 7","z":"中文 7","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-trung-quoc-7.4538963155"},{"g":8,"t":"Ngữ văn 8, tập một","z":"语文 8，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-8-tap-mot.4700073646"},{"g":8,"t":"Ngữ văn 8, tập hai","z":"语文 8，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-8-tap-hai.4700085484"},{"g":8,"t":"Toán 8, tập một","z":"数学 8，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-8-tap-mot.4700097446"},{"g":8,"t":"Toán 8, tập hai","z":"数学 8，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-8-tap-hai.4700102182"},{"g":8,"t":"Khoa học tự nhiên 8","z":"自然科学 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-tu-nhien-8.4700112690"},{"g":8,"t":"Công nghệ 8","z":"技术 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-8.4700127878"},{"g":8,"t":"Lịch sử và Địa lí 8","z":"历史与地理 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-dia-li-8.4830375637"},{"g":8,"t":"Mĩ thuật 8","z":"美术 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-8.4700130386"},{"g":8,"t":"Âm nhạc 8","z":"音乐 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-8.4700139323"},{"g":8,"t":"Giáo dục công dân 8","z":"公民教育 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-cong-dan-8.4726856411"},{"g":8,"t":"Tin học 8","z":"信息技术 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-8.4700157933"},{"g":8,"t":"Hoạt động trải nghiệm, hướng nghiệp 8","z":"体验与职业导向活动 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-8.4700160586"},{"g":8,"t":"Giáo dục thể chất 8","z":"体育 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-8.4700172390"},{"g":8,"t":"Tiếng Anh 8 Global Success","z":"英语 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-8-global-success.4879728870"},{"g":8,"t":"Tiếng Nhật 8","z":"日语 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nhat-8.5024050512"},{"g":8,"t":"Tiếng Pháp 8","z":"法语 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-8.4788476985"},{"g":8,"t":"Tiếng Trung Quốc 8","z":"中文 8","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-trung-quoc-8.4540041781"},{"g":9,"t":"Ngữ văn 9, tập một","z":"语文 9，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-9-tap-mot.4700220434"},{"g":9,"t":"Ngữ văn 9, tập hai","z":"语文 9，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-9-tap-hai.4714685580"},{"g":9,"t":"Toán 9, tập một","z":"数学 9，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-9-tap-mot.4714692201"},{"g":9,"t":"Toán 9, tập hai","z":"数学 9，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-9-tap-hai.4714699696"},{"g":9,"t":"Khoa học tự nhiên 9","z":"自然科学 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-khoa-hoc-tu-nhien-9.4700446949"},{"g":9,"t":"Công nghệ 9 - Định hướng nghề nghiệp","z":"技术 9·职业导向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-9-dinh-huong-nghe-nghiep.4714876625"},{"g":9,"t":"Công nghệ 9 - Trải nghiệm nghề nghiệp Mô đun Lắp đặt mạng điện trong nhà","z":"技术 9·职业体验 模块 家庭电路安装","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-9-trai-nghiem-nghe-nghiep-mo-dun-lap-dat-mang-dien-trong-nha.4700468485"},{"g":9,"t":"Công nghệ 9 - Trải nghiệm nghề nghiệp Mô đun Trồng cây ăn quả","z":"技术 9·职业体验 模块 果树种植","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-9-trai-nghiem-nghe-nghiep-mo-dun-trong-cay-an-qua.4714880633"},{"g":9,"t":"Công nghệ 9 - Trải nghiệm nghề nghiệp Mô đun Chế biến thực phẩm","z":"技术 9·职业体验 模块 食品加工","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-9-trai-nghiem-nghe-nghiep-mo-dun-che-bien-thuc-pham.4700471189"},{"g":9,"t":"Lịch sử và Địa lí 9","z":"历史与地理 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-va-dia-li-9.4844021301"},{"g":9,"t":"Mĩ thuật 9","z":"美术 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-9.4700325653"},{"g":9,"t":"Âm nhạc 9","z":"音乐 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-9.4700486486"},{"g":9,"t":"Giáo dục công dân 9","z":"公民教育 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-cong-dan-9.4714947143"},{"g":9,"t":"Tin học 9","z":"信息技术 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-9.4700233123"},{"g":9,"t":"Hoạt động trải nghiệm, hướng nghiệp 9","z":"体验与职业导向活动 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-9.4700489376"},{"g":9,"t":"Giáo dục thể chất 9","z":"体育 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-9.4700478660"},{"g":9,"t":"Tiếng Anh 9 - Global Success","z":"英语 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-9-global-success.4879734378"},{"g":9,"t":"Tiếng Trung Quốc 9","z":"中文 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-tieng-trung-quoc-9.4538772230"},{"g":9,"t":"Tiếng Nhật 9","z":"日语 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-nhat-9.5024056827"},{"g":9,"t":"Tiếng Pháp 9","z":"法语 9","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-phap-9.4788548844"},{"g":10,"t":"Ngữ văn 10, tập một","z":"语文 10，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-10-tap-mot.21113"},{"g":10,"t":"Ngữ văn 10, tập hai","z":"语文 10，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-10-tap-hai.4700663155"},{"g":10,"t":"Chuyên đề học tập Ngữ văn 10","z":"专题学习 语文 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-ngu-van-10.4700668351"},{"g":10,"t":"Toán 10, tập một","z":"数学 10，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-10-tap-mot.4714886467"},{"g":10,"t":"Toán 10, tập hai","z":"数学 10，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-10-tap-hai.4714894857"},{"g":10,"t":"Chuyên đề học tập Toán 10","z":"专题学习 数学 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-toan-10.4700504388"},{"g":10,"t":"Lịch sử 10","z":"历史 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-10.4755748913"},{"g":10,"t":"Chuyên đề học tập Lịch sử 10","z":"专题学习 历史 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-lich-su-10.4755634780"},{"g":10,"t":"Địa lí 10","z":"地理 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dia-li-10.4700970617"},{"g":10,"t":"Chuyên đề học tập Địa lí 10","z":"专题学习 地理 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-dia-li-10.4700990179"},{"g":10,"t":"Giáo dục Kinh tế và Pháp luật 10","z":"经济与法律教育 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-kinh-te-va-phap-luat-10.4756644900"},{"g":10,"t":"Chuyên đề học tập Giáo dục Kinh tế và Pháp luật 10","z":"专题学习 经济与法律教育 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-giao-duc-kinh-te-va-phap-luat-10.4715360345"},{"g":10,"t":"Vật lí 10","z":"物理 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-vat-li-10.4700746482"},{"g":10,"t":"Chuyên đề học tập Vật lí 10","z":"专题学习 物理 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-vat-li-10.4700781373"},{"g":10,"t":"Hóa học 10","z":"化学 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoa-hoc-10.4700854983"},{"g":10,"t":"Chuyên đề học tập Hóa học 10","z":"专题学习 化学 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-hoa-hoc-10.4700858540"},{"g":10,"t":"Sinh học 10","z":"生物 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-sinh-hoc-10.4700819489"},{"g":10,"t":"Chuyên đề học tập Sinh học 10","z":"专题学习 生物 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-sinh-hoc-10.4700833742"},{"g":10,"t":"Công nghệ 10 - Thiết kế và công nghệ","z":"技术 10·设计与技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-10-thiet-ke-va-cong-nghe.4700882633"},{"g":10,"t":"Chuyên đề học tập Công nghệ 10 - Thiết kế và công nghệ","z":"专题学习 技术 10·设计与技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-10-thiet-ke-va-cong-nghe.4700896194"},{"g":10,"t":"Công nghệ 10 - Công nghệ trồng trọt","z":"技术 10·种植技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-10-cong-nghe-trong-trot.4715169808"},{"g":10,"t":"Chuyên đề học tập Công nghệ 10 - Công nghệ trồng trọt","z":"专题学习 技术 10·种植技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-10-cong-nghe-trong-trot.4734033161"},{"g":10,"t":"Tin học 10","z":"信息技术 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-10.4700509569"},{"g":10,"t":"Chuyên đề học tập Tin học 10 - Định hướng tin học ứng dụng","z":"专题学习 信息技术 10·应用信息学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-10-dinh-huong-tin-hoc-ung-dung.4700511340"},{"g":10,"t":"Chuyên đề học tập Tin học 10 - Định hướng khoa học máy tính","z":"专题学习 信息技术 10·计算机科学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-10-dinh-huong-khoa-hoc-may-tinh.4771724829"},{"g":10,"t":"Mĩ thuật 10 - Thiết kế mĩ thuật đa phương tiện","z":"美术 10·多媒体美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-thiet-ke-mi-thuat-da-phuong-tien.4734062277"},{"g":10,"t":"Mĩ thuật 10 - Thiết kế đồ họa","z":"美术 10·平面设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-thiet-ke-do-hoa.4772232937"},{"g":10,"t":"Mĩ thuật 10 - Thiết kế thời trang","z":"美术 10·服装设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-thiet-ke-thoi-trang.4772284106"},{"g":10,"t":"Mĩ thuật 10 - Thiết kế mĩ thuật sân khấu, điện ảnh","z":"美术 10·舞台与电影美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-thiet-ke-mi-thuat-san-khau-dien-anh.4772267647"},{"g":10,"t":"Mĩ thuật 10 - Lí luận và lịch sử mĩ thuật","z":"美术 10·美术理论与美术史","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-li-luan-va-lich-su-mi-thuat.4734055597"},{"g":10,"t":"Mĩ thuật 10 - Điêu khắc","z":"美术 10·雕塑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-dieu-khac.4734047280"},{"g":10,"t":"Mĩ thuật 10 - Kiến trúc","z":"美术 10·建筑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-kien-truc.4734050458"},{"g":10,"t":"Mĩ thuật 10 - Hội họa","z":"美术 10·绘画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-hoi-hoa.4700957359"},{"g":10,"t":"Mĩ thuật 10 - Đồ họa (tranh in)","z":"美术 10·版画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-do-hoa-tranh-in.4771773796"},{"g":10,"t":"Mĩ thuật 10 - Thiết kế công nghiệp","z":"美术 10·工业设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-10-thiet-ke-cong-nghiep.4772243228"},{"g":10,"t":"Chuyên đề học tập Mĩ thuật 10","z":"专题学习 美术 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-mi-thuat-10.4772324479"},{"g":10,"t":"Âm nhạc 10","z":"音乐 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-10.4700498412"},{"g":10,"t":"Chuyên đề học tập Âm nhạc 10","z":"专题学习 音乐 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-am-nhac-10.4771708513"},{"g":10,"t":"Hoạt động trải nghiệm, hướng nghiệp 10","z":"体验与职业导向活动 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-10.4700998945"},{"g":10,"t":"Giáo dục thể chất 10 - Bóng chuyền","z":"体育 10·排球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-10-bong-chuyen.4715344857"},{"g":10,"t":"Giáo dục thể chất 10 - Bóng đá","z":"体育 10·足球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-10-bong-da.4771757673"},{"g":10,"t":"Giáo dục thể chất 10 - Cầu lông","z":"体育 10·羽毛球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-10-cau-long.4700936401"},{"g":10,"t":"Giáo dục thể chất 10 - Bóng rổ","z":"体育 10·篮球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-10-bong-ro.4700919118"},{"g":10,"t":"Giáo dục Quốc phòng và An ninh 10","z":"国防与安全教育 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-quoc-phong-va-an-ninh-10.4893063340"},{"g":10,"t":"Tiếng Anh 10 - Global Sucess","z":"英语 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-10-global-sucess.4879778228"},{"g":10,"t":"Tiếng Trung Quốc 10","z":"中文 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-trung-quoc-10.4866978491"},{"g":10,"t":"Tiếng Pháp 10","z":"法语 10","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/tieng-phap-10.4787785932"},{"g":11,"t":"Ngữ văn 11, tập hai","z":"语文 11，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-11-tap-hai.4701023518"},{"g":11,"t":"Ngữ văn 11, tập một","z":"语文 11，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-11-tap-mot.4701014733"},{"g":11,"t":"Chuyên đề học tập Ngữ văn 11","z":"专题学习 语文 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-ngu-van-11.4701039764"},{"g":11,"t":"Tiếng Anh 11 - Global Success","z":"英语 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-11-global-success.4879788302"},{"g":11,"t":"Toán 11, tập một","z":"数学 11，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-11-tap-mot.4701050771"},{"g":11,"t":"Toán 11, tập hai","z":"数学 11，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-11-tap-hai.4701058816"},{"g":11,"t":"Chuyên đề học tập Toán 11","z":"专题学习 数学 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-toan-11.4701071282"},{"g":11,"t":"Lịch sử 11","z":"历史 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-11.4720315375"},{"g":11,"t":"Chuyên đề học tập Lịch sử 11","z":"专题学习 历史 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-lich-su-11.4720332514"},{"g":11,"t":"Địa lí 11","z":"地理 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dia-li-11.4720361879"},{"g":11,"t":"Chuyên đề học tập Địa lí 11","z":"专题学习 地理 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-dia-li-11.4720281603"},{"g":11,"t":"Giáo dục Kinh tế và Pháp luật 11","z":"经济与法律教育 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-kinh-te-va-phap-luat-11.4720430286"},{"g":11,"t":"Chuyên đề học tập Giáo dục Kinh tế và Pháp luật 11","z":"专题学习 经济与法律教育 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-giao-duc-kinh-te-va-phap-luat-11.4720833913"},{"g":11,"t":"Vật lí 11","z":"物理 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-vat-li-11.4701093133"},{"g":11,"t":"Chuyên đề học tập Vật lí 11","z":"专题学习 物理 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-vat-li-11.4701103581"},{"g":11,"t":"Hóa học 11","z":"化学 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoa-hoc-11.4701111834"},{"g":11,"t":"Chuyên đề học tập Hóa học 11","z":"专题学习 化学 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-hoa-hoc-11.4701122147"},{"g":11,"t":"Sinh học 11","z":"生物 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-sinh-hoc-11.4701129740"},{"g":11,"t":"Chuyên đề học tập Sinh học 11","z":"专题学习 生物 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-sinh-hoc-11.4701276461"},{"g":11,"t":"Công nghệ 11 - Công nghệ cơ khí","z":"技术 11·机械技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-11-cong-nghe-co-khi.4701281611"},{"g":11,"t":"Chuyên đề học tập Công nghệ 11 - Công nghệ cơ khí","z":"专题学习 技术 11·机械技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-11-cong-nghe-co-khi.4701286424"},{"g":11,"t":"Công nghệ 11 - Công nghệ chăn nuôi","z":"技术 11·畜牧技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-11-cong-nghe-chan-nuoi.4701291701"},{"g":11,"t":"Chuyên đề học tập Công nghệ 11 - Công nghệ chăn nuôi","z":"专题学习 技术 11·畜牧技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-11-cong-nghe-chan-nuoi.4734023950"},{"g":11,"t":"Tin học 11 - Định hướng khoa học máy tính","z":"信息技术 11·计算机科学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-11-dinh-huong-khoa-hoc-may-tinh.22740"},{"g":11,"t":"Chuyên đề học tập Tin học 11 - Định hướng khoa học máy tính","z":"专题学习 信息技术 11·计算机科学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-11-dinh-huong-khoa-hoc-may-tinh.4780045973"},{"g":11,"t":"Tin học 11 - Định hướng tin học ứng dụng","z":"信息技术 11·应用信息学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-11-dinh-huong-tin-hoc-ung-dung.4701297754"},{"g":11,"t":"Chuyên đề học tập Tin học 11 - Định hướng tin học ứng dụng","z":"专题学习 信息技术 11·应用信息学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-11-dinh-huong-tin-hoc-ung-dung.23270"},{"g":11,"t":"Mĩ thuật 11 - Thiết kế mĩ thuật đa phương tiện","z":"美术 11·多媒体美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-thiet-ke-mi-thuat-da-phuong-tien.4783278167"},{"g":11,"t":"Mĩ thuật 11 - Thiết kế thời trang","z":"美术 11·服装设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-thiet-ke-thoi-trang.4783306171"},{"g":11,"t":"Mĩ thuật 11 - Thiết kế mĩ thuật sân khấu, điện ảnh","z":"美术 11·舞台与电影美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-thiet-ke-mi-thuat-san-khau-dien-anh.4783286485"},{"g":11,"t":"Mĩ thuật 11 - Lí luận và lịch sử mĩ thuật","z":"美术 11·美术理论与美术史","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-li-luan-va-lich-su-mi-thuat.4783342914"},{"g":11,"t":"Mĩ thuật 11 - Điêu khắc","z":"美术 11·雕塑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-dieu-khac.4780104295"},{"g":11,"t":"Mĩ thuật 11 - Kiến trúc","z":"美术 11·建筑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-kien-truc.4783354809"},{"g":11,"t":"Mĩ thuật 11 - Thiết kế đồ họa","z":"美术 11·平面设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-thiet-ke-do-hoa.4783267857"},{"g":11,"t":"Mĩ thuật 11 - Hội họa","z":"美术 11·绘画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-hoi-hoa.4701640957"},{"g":11,"t":"Mĩ thuật 11 - Đồ họa (Tranh in)","z":"美术 11·版画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-do-hoa-tranh-in.4780097278"},{"g":11,"t":"Mĩ thuật 11 - Thiết kế công nghiệp","z":"美术 11·工业设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-11-thiet-ke-cong-nghiep.4783322826"},{"g":11,"t":"Chuyên đề học tập Mĩ thuật 11","z":"专题学习 美术 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-mi-thuat-11.4783362941"},{"g":11,"t":"Âm nhạc 11","z":"音乐 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-11.4701310218"},{"g":11,"t":"Chuyên đề học tập Âm nhạc 11","z":"专题学习 音乐 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-am-nhac-11.4780033158"},{"g":11,"t":"Hoạt động trải nghiệm, hướng nghiệp 11","z":"体验与职业导向活动 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-11.4701636280"},{"g":11,"t":"Giáo dục thể chất 11 - Bóng chuyền","z":"体育 11·排球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-11-bong-chuyen.4783378357"},{"g":11,"t":"Giáo dục thể chất 11 - Bóng đá","z":"体育 11·足球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-11-bong-da.4780086882"},{"g":11,"t":"Giáo dục thể chất 11 - Cầu lông","z":"体育 11·羽毛球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-11-cau-long.4701083661"},{"g":11,"t":"Giáo dục thể chất 11 - Bóng rổ","z":"体育 11·篮球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-11-bong-ro.4783384716"},{"g":11,"t":"Giáo dục Quốc phòng và An ninh 11","z":"国防与安全教育 11","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-quoc-phong-va-an-ninh-11.4893081824"},{"g":12,"t":"Ngữ văn 12, tập một","z":"语文 12，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-12-tap-mot.4701645717"},{"g":12,"t":"Ngữ văn 12, tập hai","z":"语文 12，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-ngu-van-12-tap-hai.4701652341"},{"g":12,"t":"Chuyên đề học tập Ngữ văn 12","z":"专题学习 语文 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-ngu-van-12.4701659743"},{"g":12,"t":"Toán 12, tập một","z":"数学 12，第一册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-12-tap-mot.4701677790"},{"g":12,"t":"Toán 12, tập hai","z":"数学 12，第二册","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-toan-12-tap-hai.4701686488"},{"g":12,"t":"Chuyên đề học tập Toán 12","z":"专题学习 数学 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-toan-12.4701695539"},{"g":12,"t":"Lịch sử 12","z":"历史 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-lich-su-12.4714903732"},{"g":12,"t":"Chuyên đề học tập Lịch sử 12","z":"专题学习 历史 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-lich-su-12.4701661756"},{"g":12,"t":"Địa lí 12","z":"地理 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-dia-li-12.4847747175"},{"g":12,"t":"Chuyên đề học tập Địa lí 12","z":"专题学习 地理 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-dia-li-12.4755858537"},{"g":12,"t":"Giáo dục Kinh tế và Pháp luật 12","z":"经济与法律教育 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-kinh-te-va-phap-luat-12.4714912573"},{"g":12,"t":"Chuyên đề học tập Giáo dục Kinh tế và Pháp luật 12","z":"专题学习 经济与法律教育 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-giao-duc-kinh-te-va-phap-luat-12.4714920788"},{"g":12,"t":"Vật lí 12","z":"物理 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/shs-vat-li-12.4701697631"},{"g":12,"t":"Chuyên đề học tập Vật lí 12","z":"专题学习 物理 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-vat-li-12.4701702494"},{"g":12,"t":"Hóa học 12","z":"化学 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoa-hoc-12.4701708102"},{"g":12,"t":"Chuyên đề học tập Hóa học 12","z":"专题学习 化学 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-hoa-hoc-12.4701712458"},{"g":12,"t":"Sinh học 12","z":"生物 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-sinh-hoc-12.4701665546"},{"g":12,"t":"Chuyên đề học tập Sinh học 12","z":"专题学习 生物 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-sinh-hoc-12.4701668311"},{"g":12,"t":"Công nghệ 12 - Công nghệ Điện - Điện tử","z":"技术 12·电气与电子技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-12-cong-nghe-dien-dien-tu.4714925403"},{"g":12,"t":"Chuyên đề học tập Công nghệ 12 - Công nghệ Điện - Điện tử","z":"专题学习 技术 12·电气与电子技术","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-12-cong-nghe-dien-dien-tu.4778932590"},{"g":12,"t":"Công nghệ 12 - Lâm nghiệp - Thủy sản","z":"技术 12·林业与水产","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-cong-nghe-12-lam-nghiep-thuy-san.4701784983"},{"g":12,"t":"Chuyên đề học tập Công nghệ 12 - Lâm nghiệp - Thủy sản","z":"专题学习 技术 12·林业与水产","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-cong-nghe-12-lam-nghiep-thuy-san.4701788728"},{"g":12,"t":"Tin học 12 - Định hướng Tin học ứng dụng","z":"信息技术 12·应用信息学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-12-dinh-huong-tin-hoc-ung-dung.4719365396"},{"g":12,"t":"Chuyên đề học tập Tin học 12- Định hướng Tin học ứng dụng","z":"专题学习 信息技术 12·应用信息学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-12-dinh-huong-tin-hoc-ung-dung.4778867916"},{"g":12,"t":"Tin học 12 - Định hướng Khoa học máy tính","z":"信息技术 12·计算机科学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tin-hoc-12-dinh-huong-khoa-hoc-may-tinh.4776981352"},{"g":12,"t":"Chuyên đề học tập Tin học 12- Định hướng Khoa học máy tính","z":"专题学习 信息技术 12·计算机科学方向","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-tin-hoc-12-dinh-huong-khoa-hoc-may-tinh.4778872597"},{"g":12,"t":"Mĩ thuật 12 - Thiết kế mĩ thuật đa phương tiện","z":"美术 12·多媒体美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-thiet-ke-mi-thuat-da-phuong-tien.4778852873"},{"g":12,"t":"Mĩ thuật 12 - Thiết kế đồ họa","z":"美术 12·平面设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-thiet-ke-do-hoa.4778584580"},{"g":12,"t":"Mĩ thuật 12 - Thiết kế thời trang","z":"美术 12·服装设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-thiet-ke-thoi-trang.4778573114"},{"g":12,"t":"Mĩ thuật 12 - Thiết kế mĩ thuật sân khấu, điện ảnh","z":"美术 12·舞台与电影美术设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-thiet-ke-mi-thuat-san-khau-dien-anh.4778739671"},{"g":12,"t":"Mĩ thuật 12 - Lí luận và lịch sử mĩ thuật","z":"美术 12·美术理论与美术史","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-li-luan-va-lich-su-mi-thuat.4778832931"},{"g":12,"t":"Mĩ thuật 12 - Điêu khắc","z":"美术 12·雕塑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-dieu-khac.4778849894"},{"g":12,"t":"Mĩ thuật 12 - Kiến trúc","z":"美术 12·建筑","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-kien-truc.4778561872"},{"g":12,"t":"Mĩ thuật 12 - Hội họa","z":"美术 12·绘画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-hoi-hoa.4778837450"},{"g":12,"t":"Mĩ thuật 12 - Đồ họa (tranh in)","z":"美术 12·版画","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-do-hoa-tranh-in.4778845248"},{"g":12,"t":"Mĩ thuật 12 - Thiết kế công nghiệp","z":"美术 12·工业设计","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-mi-thuat-12-thiet-ke-cong-nghiep.4778590165"},{"g":12,"t":"Chuyên đề học tập Mĩ thuật 12","z":"专题学习 美术 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-mi-thuat-12.4777662775"},{"g":12,"t":"Âm nhạc 12","z":"音乐 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-am-nhac-12.4701672768"},{"g":12,"t":"Chuyên đề học tập Âm nhạc 12","z":"专题学习 音乐 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-chuyen-de-hoc-tap-am-nhac-12.4778942665"},{"g":12,"t":"Hoạt động trải nghiệm, hướng nghiệp 12","z":"体验与职业导向活动 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-hoat-dong-trai-nghiem-huong-nghiep-12.4701675137"},{"g":12,"t":"Giáo dục thể chất 12 - Bóng chuyền","z":"体育 12·排球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-12-bong-chuyen.4777674787"},{"g":12,"t":"Giáo dục thể chất 12 - Bóng đá","z":"体育 12·足球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-12-bong-da.4778860979"},{"g":12,"t":"Giáo dục thể chất 12 - Cầu lông","z":"体育 12·羽毛球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-12-cau-long.4777699347"},{"g":12,"t":"Giáo dục thể chất 12 - Bóng rổ","z":"体育 12·篮球","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-the-chat-12-bong-ro.4777686269"},{"g":12,"t":"Giáo dục Quốc phòng và An ninh 12","z":"国防与安全教育 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-giao-duc-quoc-phong-va-an-ninh-12.4893091876"},{"g":12,"t":"Tiếng Anh 12 - Global Success","z":"英语 12","u":"https://taphuan.nxbgd.vn/tap-huan/doc-sach/sgk-tieng-anh-12-global-success.4879792656"}];
+</script>
+<script>
+(function(){
+  const $  = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  const main   = $('#main');
+  const q      = $('#q');
+  const box    = $('#searchbox');
+  const clearq = $('#clearq');
+  const empty  = $('#empty');
+  const topBtn = $('#top');
+
+  let level = 'all';
+  let grade = 'all';
+  let term  = '';
+
+  /* ---------- 渲染 ---------- */
+  const LEVELS = [{"key": "primary", "cn": "小学", "vn": "Tiểu học", "grades": [1, 2, 3, 4, 5], "desc": "越南语、数学、道德、自然与社会（1–3 年级）→ 科学与历史地理（4–5 年级），三年级起增加技术与信息技术。"}, {"key": "secondary", "cn": "初中", "vn": "THCS", "grades": [6, 7, 8, 9], "desc": "语文、数学、自然科学、历史与地理、公民教育；九年级技术科拆分为职业导向与三个职业体验模块。"}, {"key": "high", "cn": "高中", "vn": "THPT", "grades": [10, 11, 12], "desc": "语文、数学、物理、化学、生物、历史、地理、经济与法律教育、国防安全教育，含各科专题学习分册。"}];
+  const CN = {"1": "一", "2": "二", "3": "三", "4": "四", "5": "五", "6": "六", "7": "七", "8": "八", "9": "九", "10": "十", "11": "十一", "12": "十二"};
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function hl(text, t){
+    const safe = esc(text);
+    if(!t) return safe;
+    // 用 indexOf 逐段拼接，避免正则转义问题
+    const low = text.toLowerCase(), tl = t.toLowerCase();
+    let buf = "", pos = 0, idx;
+    while ((idx = low.indexOf(tl, pos)) !== -1) {
+      buf += esc(text.slice(pos, idx)) + "<mark>" + esc(text.slice(idx, idx + t.length)) + "</mark>";
+      pos = idx + t.length;
+    }
+    buf += esc(text.slice(pos));
+    return buf;
+  }
+
+  const frag = document.createDocumentFragment();
+
+  LEVELS.forEach(lv => {
+    const books = DATA.filter(b => lv.grades.includes(b.g));
+    const sec = document.createElement('section');
+    sec.className = 'level';
+    sec.dataset.level = lv.key;
+    sec.id = 'lv-' + lv.key;
+
+    let h = '<div class="level-head">'
+          + '<h2>' + lv.cn + '</h2>'
+          + '<span class="vn">' + lv.vn + '</span>'
+          + '<span class="cnt">' + books.length + ' 册</span>'
+          + '</div>'
+          + '<p class="level-sub">' + lv.desc + '</p>';
+
+    lv.grades.forEach(g => {
+      const rows = books.filter(b => b.g === g);
+      h += '<div class="grade" id="g' + g + '">'
+         +   '<div class="grade-head"><h3>Lớp ' + g + '（' + CN[g] + '年级）</h3>'
+         +   '<span class="badge">' + rows.length + ' 册</span></div>'
+         +   '<div class="tablewrap"><div class="scroll"><table>'
+         +   '<thead><tr><th>#</th><th>书名（越南语）</th><th>中文对照</th><th>在线阅读</th></tr></thead><tbody>';
+
+      rows.forEach((b, i) => {
+        h += '<tr data-g="' + g + '" data-vi="' + esc(b.t) + '" data-zh="' + esc(b.z) + '">'
+           +   '<td class="num">' + (i+1) + '</td>'
+           +   '<td class="vi">' + esc(b.t) + '</td>'
+           +   '<td class="zh">' + esc(b.z) + '</td>'
+           +   '<td class="act"><a class="open" href="' + esc(b.u) + '" target="_blank" rel="noopener">阅读'
+           +   '<svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></a></td>'
+           + '</tr>';
+      });
+
+      h += '</tbody></table></div></div></div>';
+    });
+
+    sec.innerHTML = h;
+    frag.appendChild(sec);
+  });
+
+  const anchor = $('#empty');
+  main.insertBefore(frag, anchor);
+
+  const allRows = $$('tbody tr');
+  const allLevels = $$('.level');
+  const allGrades = $$('.grade');
+  const counter = document.createElement('div');
+  counter.className = 'meta';
+  counter.innerHTML = '<span>共 <b id="shown">' + DATA.length + '</b> 册</span><span id="filterhint"></span>';
+  main.insertBefore(counter, allLevels[0]);
+
+  /* ---------- 筛选 ---------- */
+  function apply(){
+    const t = term.trim();
+    let shown = 0;
+
+    allLevels.forEach(sec => {
+      const key = sec.dataset.level;
+      const lvOK = (level === 'all' || level === key);
+      let lvVisible = 0;
+
+      sec.querySelectorAll('.grade').forEach(gr => {
+        const g = Number(gr.id.slice(1));
+        const gOK = (grade === 'all' || Number(grade) === g);
+        let gVisible = 0;
+
+        gr.querySelectorAll('tbody tr').forEach(tr => {
+          const hit = !t || tr.dataset.vi.toLowerCase().includes(t.toLowerCase())
+                          || tr.dataset.zh.includes(t);
+          const show = lvOK && gOK && hit;
+          tr.style.display = show ? '' : 'none';
+          if(show){ gVisible++; shown++; }
+          const vi = tr.querySelector('.vi'), zh = tr.querySelector('.zh');
+          if(hit && t){
+            vi.innerHTML = hl(tr.dataset.vi, t);
+            zh.innerHTML = hl(tr.dataset.zh, t);
+          } else {
+            vi.textContent = tr.dataset.vi;
+            zh.textContent = tr.dataset.zh;
+          }
+        });
+
+        gr.style.display = gVisible ? '' : 'none';
+        lvVisible += gVisible;
+      });
+
+      sec.style.display = lvVisible ? '' : 'none';
+    });
+
+    $('#shown').textContent = shown;
+    empty.style.display = shown ? 'none' : 'block';
+
+    const parts = [];
+    if(level !== 'all') parts.push({primary:'小学',secondary:'初中',high:'高中'}[level]);
+    if(grade !== 'all') parts.push(CN[grade] + '年级');
+    if(t) parts.push('“' + t + '”');
+    $('#filterhint').textContent = parts.length ? '筛选中：' + parts.join(' · ') : '';
+  }
+
+  /* ---------- 事件 ---------- */
+  $$('#seg button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('#seg button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      level = btn.dataset.level;
+      apply();
+    });
+  });
+
+  $$('#pills .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('#pills .pill').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      grade = btn.dataset.grade;
+      if(grade !== 'all'){
+        const g = Number(grade);
+        level = g <= 5 ? 'primary' : (g <= 9 ? 'secondary' : 'high');
+        $$('#seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.level === level ? 'true' : 'false'));
+      }
+      apply();
+    });
+  });
+
+  let timer;
+  q.addEventListener('input', () => {
+    box.classList.toggle('has-value', q.value.length > 0);
+    clearTimeout(timer);
+    timer = setTimeout(() => { term = q.value; apply(); }, 110);
+  });
+
+  clearq.addEventListener('click', () => {
+    q.value = ''; term = '';
+    box.classList.remove('has-value');
+    apply(); q.focus();
+  });
+
+  document.addEventListener('keydown', e => {
+    if((e.metaKey || e.ctrlKey) && e.key === 'k'){ e.preventDefault(); q.focus(); q.select(); }
+    if(e.key === 'Escape' && document.activeElement === q){ q.value=''; term=''; box.classList.remove('has-value'); apply(); }
+  });
+
+  window.addEventListener('scroll', () => {
+    topBtn.classList.toggle('show', window.scrollY > 600);
+  }, {passive:true});
+  topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+})();
+</script>
+</body>
+</html>
